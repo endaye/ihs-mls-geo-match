@@ -232,11 +232,11 @@ run;
 
 data f.m_pin_tmp;
 	*set folder.pin_unmatched_trailing;
- 	format pin1 best14.;
- 	set f.mls_pin_all;
+ 	*format pin1 best14.;
+ 	set f.mls_pin_dt;
 
  	pin_tmp =tranwrd(upcase(pin), 'O' ,'0' ); 
- 	
+ 	/*
  	pin1 = pin;
  	pin2 =substr(strip(pin1) || "00000000000000", 1 ,14 ) *1;
   	if indexc(pin_tmp,' &/+ ') ^= 0 then do ;
@@ -248,7 +248,9 @@ data f.m_pin_tmp;
   		pin2 = compress(pin_tmp1,,'dk') *1 ;
   	end;
   	if pin2 = . then pin2 = compress(substr(strip(pin_tmp) ||"00000000000000" , 1, 14 ),,'dk')*1 ;
- 	pin3 = compress(pin_tmp,,'dk') *1 ;
+  	*/
+  	pin_tmp2 = substr(strip(pin_tmp) || "00000000000000", 1 ,14 );
+ 	pin3 = compress(pin_tmp2,,'dk') *1 ;
 run;
 
 proc sql;
@@ -314,7 +316,7 @@ run;
 
 *%get_pin_m();
 *%comb_pin_m();
-*%clean_pin_m();
+%clean_pin_m();
 
 *%get_pin_g();
 *%clean_pin_g();
