@@ -18,7 +18,7 @@ proc contents data=mls.other_attachedsingle_2004;
 proc contents data=geo.geo_master_all_2015;
 %mend show_vars;
 
-* %show_vars();
+*%show_vars();
 
 %macro get_pin_m();
 
@@ -38,7 +38,7 @@ data f.mls_pin_at;
 		mls.other_attachedsingle_2014
 		mls.other_attachedsingle_2015;
 	property_type = 'attached single';
-	keep pin property_type;	
+	keep pin cny property_type;	
 run;
 
 data f.mls_pin_bu;
@@ -54,7 +54,7 @@ data f.mls_pin_bu;
 		mls.other_business_2014
 		mls.other_business_2015;
 	property_type = 'business';
-	keep pin property_type;
+	keep pin cny property_type;
 run;
 
 data f.mls_pin_co;
@@ -70,7 +70,7 @@ data f.mls_pin_co;
 	    mls.other_commercial_2014
 	    mls.other_commercial_2015;
 	property_type = 'commercial';
-	keep pin property_type;	
+	keep pin cny property_type;	
 run;
 
 data f.mls_pin_dp;
@@ -87,7 +87,7 @@ data f.mls_pin_dp;
 		mls.other_deededparking_2014
 		mls.other_deededparking_2015;
 	property_type = 'deeded parking';
-	keep pin property_type;	
+	keep pin cny property_type;	
 run;
 
 data f.mls_pin_dt;
@@ -104,8 +104,7 @@ data f.mls_pin_dt;
 		mls.other_detachedsingle_2014
 		mls.other_detachedsingle_2015;
 	property_type = 'detached single';
-	if CNY ^= 'Cook';
-	keep pin property_type;
+	keep pin cny property_type;
 run;
 
 data f.mls_pin_in;
@@ -121,7 +120,7 @@ data f.mls_pin_in;
 		mls.other_industrial_2014
 		mls.other_industrial_2015;
 	property_type = 'industrial';
-	keep pin property_type;
+	keep pin cny property_type;
 run;
 
 data f.mls_pin_id;
@@ -137,7 +136,7 @@ data f.mls_pin_id;
 		mls.other_instuttodevelop_2014
 		mls.other_instuttodevelop_2015;
 	property_type = 'instutto develop';
-	keep pin property_type;
+	keep pin cny property_type;
 run;
 
 data f.mls_pin_ll;
@@ -153,7 +152,7 @@ data f.mls_pin_ll;
 		mls.other_lotsandland_2014
 		mls.other_lotsandland_2015;
 	property_type = 'lots and land';
-	keep pin property_type;
+	keep pin cny property_type;
 run;
 
 data f.mls_pin_md;
@@ -169,7 +168,7 @@ data f.mls_pin_md;
 		mls.other_mixeduse_2014
 		mls.other_mixeduse_2015;
 	property_type = 'mixed use';
-	keep pin property_type;
+	keep pin cny property_type;
 run;
 
 data f.mls_pin_mh;
@@ -186,7 +185,7 @@ data f.mls_pin_mh;
 		mls.other_mobilehomes_2014
 		mls.other_mobilehomes_2015;
 	property_type = 'mobile home';
-	keep pin property_type;
+	keep pin cny property_type;
 run;
 
 data f.mls_pin_mf;
@@ -203,7 +202,7 @@ data f.mls_pin_mf;
 		mls.other_multifamily_2014
 		mls.other_multifamily_2015;
 	property_type = 'multifamily';
-	keep pin property_type;
+	keep pin cny property_type;
 run;
 
 data f.mls_pin_of;
@@ -219,7 +218,7 @@ data f.mls_pin_of;
 		mls.other_officetech_2014
 		mls.other_officetech_2015;
 	property_type = 'office tech';
-	keep pin property_type;
+	keep pin cny property_type;
 run;
 
 data f.mls_pin_re;
@@ -236,7 +235,7 @@ data f.mls_pin_re;
 		mls.other_rentals_2014
 		mls.other_rentals_2015;
 	property_type = 'rentails';
-	keep pin property_type;
+	keep pin cny property_type;
 run;
 
 data f.mls_pin_rp;
@@ -252,7 +251,7 @@ data f.mls_pin_rp;
 		mls.other_residentialproperty_2014
 		mls.other_residentialproperty_2015;
 	property_type = 'residential property';
-	keep pin property_type;
+	keep pin cny property_type;
 run;
 
 data f.mls_pin_rr;
@@ -268,7 +267,7 @@ data f.mls_pin_rr;
 		mls.other_residentialrental_2014
 		mls.other_residentialrental_2015;
 	property_type = 'residentail rentals';
-	keep pin property_type;
+	keep pin cny property_type;
 run;
 
 data f.mls_pin_rs;
@@ -284,7 +283,7 @@ data f.mls_pin_rs;
 		mls.other_retailstores_2014
 		mls.other_retailstores_2015;
 	property_type = 'retail stores';
-	keep pin property_type;
+	keep pin cny property_type;
 run;
 
 data f.mls_pin_24;
@@ -301,7 +300,7 @@ data f.mls_pin_24;
 		mls.other_twotofour_2014
 		mls.other_twotofour_2015;
 	property_type = 'two-to-four';
-	keep pin property_type;
+	keep pin cny property_type;
 run;
 
 data f.mls_pin_vl;
@@ -318,7 +317,7 @@ data f.mls_pin_vl;
 		mls.other_vacantland_2014
 		mls.other_vacantland_2015;
 	property_type = 'vacantland';
-	keep pin property_type;
+	keep pin cny property_type;
 run;
 
 %mend get_pin_m;
@@ -348,23 +347,25 @@ run;
 
 
 
-%macro clean_pin_m();
+%macro clean_pin_m(state);
 
 data f.m_pin_tmp;
 	*set folder.pin_unmatched_trailing;
- 	*format pin1 best14.;
- 	set f.mls_pin_all;
+ 	format pin3 best14.;
+ 	set f.mls_pin_&state.;
  	pin_tmp = compress(tranwrd(upcase(pin), 'O' ,'0' ),,'dk'); 
   	len = length(pin_tmp);
   	pin_tmp1 = pin_tmp;
   	if len < 10 then pin_tmp1 = substr("0000000000" || pin_tmp, length("0000000000" || pin_tmp)-9, 10);
   	pin_tmp2 = substr(strip(pin_tmp1) || "0000", 1 ,14 );
  	pin3 = pin_tmp2 * 1;
+
+ 	cny = upcase(strip(cny));
 run;
 
 proc sql;
 	CREATE TABLE f.m_pin AS
-		SELECT DISTINCT pin3
+		SELECT DISTINCT pin3, cny
 		FROM f.m_pin_tmp;
 quit;
 
@@ -374,9 +375,11 @@ quit;
 
 %macro get_pin_g();
 data f.geo_pin;
+	format pin0 best14.;
 	set geo.geo_master_all_2015;
-	pin0 = compress(pin_nbr,,'dk') *1 ;
-	keep pin0 pin_nbr;
+	pin0 = compress(pin_nbr,,'dk') * 1;
+	county = upcase(strip(COUNTY_CD));
+	keep pin0 pin_nbr county COUNTY_CD;
 run;
 %mend get_pin_g;
 
@@ -385,7 +388,7 @@ run;
 %macro clean_pin_g();
 proc sql;
 	CREATE TABLE f.g_pin AS
-		SELECT DISTINCT pin0
+		SELECT DISTINCT pin0, county
 		FROM f.geo_pin;
 quit;
 %mend clean_pin_g;
@@ -396,9 +399,9 @@ quit;
 
 proc sql;
 	CREATE TABLE f.mls_geo_match AS
-		SELECT DISTINCT pin0, pin3
+		SELECT DISTINCT pin0, cny, county, pin3
 		FROM f.m_pin m, f.g_pin g
-		WHERE m.pin3 = g.pin0;
+		WHERE m.pin3 = g.pin0 AND m.cny = g.county;
 quit;
 
 proc contents data=f.m_pin;
@@ -411,40 +414,22 @@ proc contents data=f.mls_geo_match;
 
 
 
-/*
-data f.mls_tmp;
-set mls.all_detachedsingle_2015(obs=300);
-run;
 
-data f.geo_tmp;
-set geo.geo_master (obs=300);
-run;
-
-data f.mls_sample;
-set mls.all_detachedsingle_2011(obs=300);
-run;
-
-
-
-data f.mls_pin_dt;
-	set mls.all_detachedsingle_2011 
-		mls.all_detachedsingle_2012 
-		mls.all_detachedsingle_2013 
-		mls.all_detachedsingle_2014  
-		mls.all_detachedsingle_2015;
-	property_type = 'detached single';
-	if CNY ^= 'Cook';
-	keep pin property_type;
-run;
-*/
 
 
 *%get_pin_m();
 *%comb_pin_m();
-*%clean_pin_m();
+%clean_pin_m(all);
 
 *%get_pin_g();
 *%clean_pin_g();
 %match_pin();
+
+/*
+data f.tmp;
+set f.mls_geo_match(obs=300);
+format x best14.;
+x = pin0 * 1;
+run;
 
 
