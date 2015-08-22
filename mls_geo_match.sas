@@ -347,12 +347,13 @@ run;
 
 
 
-%macro clean_pin_m(state);
+%macro clean_pin_m(type);
 
-data f.m_pin_tmp;
+data f.m_pin_tmp1;
+	*** clean PIN number;
 	*set folder.pin_unmatched_trailing;
  	format pin3 best14.;
- 	set f.mls_pin_&state.;
+ 	set f.mls_pin_&type. ;
  	pin_tmp = compress(tranwrd(upcase(pin), 'O' ,'0' ),,'dk'); 
   	len = length(pin_tmp);
   	pin_tmp1 = pin_tmp;
@@ -360,13 +361,34 @@ data f.m_pin_tmp;
   	pin_tmp2 = substr(strip(pin_tmp1) || "0000", 1 ,14 );
  	pin3 = pin_tmp2 * 1;
 
- 	cny = upcase(strip(cny));
+ 	*** clean County Name ;
+ 	cny_tmp = upcase(strip(compress(cny,,'dc')));
+ 	cny = cny_tmp;
+ 	if cny_tmp='DU' or cny_tmp='DU PAG' or cny_tmp='DU PAGE' or cny_tmp='DUP' or cny_tmp='DUPA' or
+ 		cny_tmp='DOP' or cny_tmp='DP' or cny_tmp='DPG' or cny_tmp='DVP'  
+ 			then cny='DUPAGE';
+ 	if cny_tmp='K' or cny_tmp='KA' or cny_tmp='KAD' or cny_tmp='KAJ' or cny_tmp='KAK' or
+ 		cny_tmp='KANE' or cny_tmp='KAN' or cny_tmp='KANKAKEE' or cny_tmp='KANK'  
+ 			then cny='KANE'; 
+ 	if cny_tmp='LAKE' or cny_tmp='LAK' or cny_tmp='LAE'
+ 			then cny='LAKE'; 
+ 	if cny_tmp='MCHENRY' or cny_tmp='MC HENRY' or cny_tmp='MC' or cny_tmp='MCH' or cny_tmp='MCHE' or
+ 		cny_tmp='MCJ' or cny_tmp='MCK' or cny_tmp='MCN' or cny_tmp='MCR' or cny_tmp='MCY'  
+ 			then cny='MCHENRY'; 
+ 	if cny_tmp='WILL' or cny_tmp='WIL'
+ 			then cny='WILL'; 
+ 	drop cny_tmp;
+run;
+
+data f.m_pin_tmp2;
+	set f.m_pin_tmp1;
+	if cny = 'DUPAGE' or cny = 'KANE' or cny = 'LAKE' or cny = 'MCHENRY' or cny = 'WILL';
 run;
 
 proc sql;
 	CREATE TABLE f.m_pin AS
 		SELECT DISTINCT pin3, cny
-		FROM f.m_pin_tmp;
+		FROM f.m_pin_tmp2;
 quit;
 
 %mend clean_pin_m;
@@ -381,6 +403,15 @@ data f.geo_pin;
 	county = upcase(strip(COUNTY_CD));
 	keep pin0 pin_nbr county COUNTY_CD;
 run;
+
+data f.geo_pin;
+	format pin0 best14.;
+	set geo.geo_master_all_2015;
+	pin0 = compress(pin_nbr,,'dk') * 1;
+	county = upcase(strip(COUNTY_CD));
+	keep pin0 pin_nbr county COUNTY_CD;
+run;
+
 %mend get_pin_g;
 
 
@@ -389,7 +420,8 @@ run;
 proc sql;
 	CREATE TABLE f.g_pin AS
 		SELECT DISTINCT pin0, county
-		FROM f.geo_pin;
+		FROM f.geo_pin
+		WHERE county = 'DUPAGE' OR county = 'KANE' OR county = 'LAKE' OR county = 'MCHENRY' OR county = 'WILL';
 quit;
 %mend clean_pin_g;
 
@@ -401,7 +433,7 @@ proc sql;
 	CREATE TABLE f.mls_geo_match AS
 		SELECT DISTINCT pin0, cny, county, pin3
 		FROM f.m_pin m, f.g_pin g
-		WHERE m.pin3 = g.pin0 AND m.cny = g.county;
+		WHERE m.pin3 = g.pin0 AND cny=county;
 quit;
 
 proc contents data=f.m_pin;
@@ -413,23 +445,34 @@ proc contents data=f.mls_geo_match;
 
 
 
-
-
-
-
 *%get_pin_m();
 *%comb_pin_m();
 %clean_pin_m(all);
 
 *%get_pin_g();
-*%clean_pin_g();
+%clean_pin_g();
 %match_pin();
 
+proc sql;
+	SELECT county, COUNT(*)
+	FROM f.g_pin
+	GROUP BY county;
+quit;
+
+proc sql;
+	SELECT cny, COUNT(*)
+	FROM f.m_pin
+	GROUP BY cny;
+quit;
+
 /*
+
+
 data f.tmp;
 set f.mls_geo_match(obs=300);
 format x best14.;
 x = pin0 * 1;
 run;
+*/
 
 
