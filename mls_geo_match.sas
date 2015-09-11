@@ -409,8 +409,9 @@ run;
 %macro get_addr_g();
 data f.geo_addr;
 	set geo.sas_ptype_all_2015;
-	rename 	pin_nbr 				= pin
-			assessor_apt_nbr 		= apt_nbr
+	county_a = upcase(county_cd);
+	pin = pin_nbr * 1;
+	rename 	assessor_apt_nbr 		= apt_nbr
 			assessor_direction_cd 	= dir
 			assessor_street_nbr		= st_nbr
 			assessor_street_nm		= st_nm
@@ -421,9 +422,8 @@ data f.geo_addr;
 			assessor_town_region_nm	= region
 			cln_assessor_addr1_ln	= addr1
 			cln_assessor_addr2_ln	= addr2
-			cln_assessor_zip_cd		= zip
-			county_cd 				= county;
-	keep 	pin_nbr 				
+			cln_assessor_zip_cd		= zip;
+	keep 	pin 				
 			assessor_apt_nbr 
 			assessor_direction_cd  
 			assessor_street_nbr	 
@@ -436,7 +436,7 @@ data f.geo_addr;
 			cln_assessor_addr1_ln 
 			cln_assessor_addr2_ln	 
 			cln_assessor_zip_cd
-			county_cd;
+			county_a;
 	run;
 %mend get_addr_g;
 
@@ -455,11 +455,12 @@ quit;
 
 
 %macro g_pin_addr();
+
 proc sql;
 	CREATE TABLE f.g_pin_addr AS 
 		SELECT * 
 		FROM f.g_pin p LEFT JOIN f.geo_addr a 
-		ON p.pin0 = a.pin AND p.county = a.county;
+		ON p.pin0 = a.pin AND p.county = a.county_a;
 quit;
 %mend g_pin_addr;
 
@@ -490,7 +491,7 @@ proc contents data=f.mls_geo_match;
 *%get_pin_g();
 *%clean_pin_g();
 *%get_addr_g();
-*%g_pin_addr();
+%g_pin_addr();
 *%match_pin();
 
 proc sql;
