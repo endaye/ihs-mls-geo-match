@@ -38,7 +38,7 @@ data f.mls_pin_at;
 		mls.other_attachedsingle_2014
 		mls.other_attachedsingle_2015;
 	property_type = 'attached single';
-	keep pin cny property_type;	
+	keep pin cny property_type ad;
 run;
 
 data f.mls_pin_bu;
@@ -54,7 +54,7 @@ data f.mls_pin_bu;
 		mls.other_business_2014
 		mls.other_business_2015;
 	property_type = 'business';
-	keep pin cny property_type;
+	keep pin cny property_type ad;
 run;
 
 data f.mls_pin_co;
@@ -70,7 +70,7 @@ data f.mls_pin_co;
 	    mls.other_commercial_2014
 	    mls.other_commercial_2015;
 	property_type = 'commercial';
-	keep pin cny property_type;	
+	keep pin cny property_type ad;
 run;
 
 data f.mls_pin_dp;
@@ -87,7 +87,7 @@ data f.mls_pin_dp;
 		mls.other_deededparking_2014
 		mls.other_deededparking_2015;
 	property_type = 'deeded parking';
-	keep pin cny property_type;	
+	keep pin cny property_type ad;	
 run;
 
 data f.mls_pin_dt;
@@ -104,7 +104,7 @@ data f.mls_pin_dt;
 		mls.other_detachedsingle_2014
 		mls.other_detachedsingle_2015;
 	property_type = 'detached single';
-	keep pin cny property_type;
+	keep pin cny property_type ad;
 run;
 
 data f.mls_pin_in;
@@ -120,7 +120,7 @@ data f.mls_pin_in;
 		mls.other_industrial_2014
 		mls.other_industrial_2015;
 	property_type = 'industrial';
-	keep pin cny property_type;
+	keep pin cny property_type ad;
 run;
 
 data f.mls_pin_id;
@@ -136,7 +136,7 @@ data f.mls_pin_id;
 		mls.other_instuttodevelop_2014
 		mls.other_instuttodevelop_2015;
 	property_type = 'instutto develop';
-	keep pin cny property_type;
+	keep pin cny property_type ad;
 run;
 
 data f.mls_pin_ll;
@@ -152,7 +152,7 @@ data f.mls_pin_ll;
 		mls.other_lotsandland_2014
 		mls.other_lotsandland_2015;
 	property_type = 'lots and land';
-	keep pin cny property_type;
+	keep pin cny property_type ad;
 run;
 
 data f.mls_pin_md;
@@ -168,7 +168,7 @@ data f.mls_pin_md;
 		mls.other_mixeduse_2014
 		mls.other_mixeduse_2015;
 	property_type = 'mixed use';
-	keep pin cny property_type;
+	keep pin cny property_type ad;
 run;
 
 data f.mls_pin_mh;
@@ -185,7 +185,7 @@ data f.mls_pin_mh;
 		mls.other_mobilehomes_2014
 		mls.other_mobilehomes_2015;
 	property_type = 'mobile home';
-	keep pin cny property_type;
+	keep pin cny property_type ad;
 run;
 
 data f.mls_pin_mf;
@@ -202,7 +202,7 @@ data f.mls_pin_mf;
 		mls.other_multifamily_2014
 		mls.other_multifamily_2015;
 	property_type = 'multifamily';
-	keep pin cny property_type;
+	keep pin cny property_type ad;
 run;
 
 data f.mls_pin_of;
@@ -218,7 +218,7 @@ data f.mls_pin_of;
 		mls.other_officetech_2014
 		mls.other_officetech_2015;
 	property_type = 'office tech';
-	keep pin cny property_type;
+	keep pin cny property_type ad;
 run;
 
 data f.mls_pin_re;
@@ -235,7 +235,7 @@ data f.mls_pin_re;
 		mls.other_rentals_2014
 		mls.other_rentals_2015;
 	property_type = 'rentails';
-	keep pin cny property_type;
+	keep pin cny property_type ad;
 run;
 
 data f.mls_pin_rp;
@@ -251,7 +251,7 @@ data f.mls_pin_rp;
 		mls.other_residentialproperty_2014
 		mls.other_residentialproperty_2015;
 	property_type = 'residential property';
-	keep pin cny property_type;
+	keep pin cny property_type ad;
 run;
 
 data f.mls_pin_rr;
@@ -267,7 +267,7 @@ data f.mls_pin_rr;
 		mls.other_residentialrental_2014
 		mls.other_residentialrental_2015;
 	property_type = 'residentail rentals';
-	keep pin cny property_type;
+	keep pin cny property_type ad;
 run;
 
 data f.mls_pin_rs;
@@ -283,7 +283,7 @@ data f.mls_pin_rs;
 		mls.other_retailstores_2014
 		mls.other_retailstores_2015;
 	property_type = 'retail stores';
-	keep pin cny property_type;
+	keep pin cny property_type ad;
 run;
 
 data f.mls_pin_24;
@@ -300,7 +300,7 @@ data f.mls_pin_24;
 		mls.other_twotofour_2014
 		mls.other_twotofour_2015;
 	property_type = 'two-to-four';
-	keep pin cny property_type;
+	keep pin cny property_type ad;
 run;
 
 data f.mls_pin_vl;
@@ -317,7 +317,7 @@ data f.mls_pin_vl;
 		mls.other_vacantland_2014
 		mls.other_vacantland_2015;
 	property_type = 'vacantland';
-	keep pin cny property_type;
+	keep pin cny property_type ad;
 run;
 
 %mend get_pin_m;
@@ -403,16 +403,43 @@ data f.geo_pin;
 	county = upcase(strip(COUNTY_CD));
 	keep pin0 pin_nbr county COUNTY_CD;
 run;
-
-data f.geo_pin;
-	format pin0 best14.;
-	set geo.geo_master_all_2015;
-	pin0 = compress(pin_nbr,,'dk') * 1;
-	county = upcase(strip(COUNTY_CD));
-	keep pin0 pin_nbr county COUNTY_CD;
-run;
-
 %mend get_pin_g;
+
+
+%macro get_addr_g();
+data f.geo_addr;
+	set geo.sas_ptype_all_2015;
+	rename 	pin_nbr 				= pin
+			assessor_apt_nbr 		= apt_nbr
+			assessor_direction_cd 	= dir
+			assessor_street_nbr		= st_nbr
+			assessor_street_nm		= st_nm
+			assessor_state_cd		= state
+			assessor_street_type_cd	= st_tp 
+			cln_assessor_city_nm	= city
+			assessor_township_nm	= township
+			assessor_town_region_nm	= region
+			cln_assessor_addr1_ln	= addr1
+			cln_assessor_addr2_ln	= addr2
+			cln_assessor_zip_cd		= zip
+			county_cd 				= county;
+	keep 	pin_nbr 				
+			assessor_apt_nbr 
+			assessor_direction_cd  
+			assessor_street_nbr	 
+			assessor_street_nm		 
+			assessor_state_cd		 
+			assessor_street_type_cd 
+			cln_assessor_city_nm	 
+			assessor_township_nm	 
+			assessor_town_region_nm	   
+			cln_assessor_addr1_ln 
+			cln_assessor_addr2_ln	 
+			cln_assessor_zip_cd
+			county_cd;
+	run;
+%mend get_addr_g;
+
 
 
 
@@ -424,6 +451,17 @@ proc sql;
 		WHERE county = 'DUPAGE' OR county = 'KANE' OR county = 'LAKE' OR county = 'MCHENRY' OR county = 'WILL';
 quit;
 %mend clean_pin_g;
+
+
+
+%macro g_pin_addr();
+proc sql;
+	CREATE TABLE f.g_pin_addr AS 
+		SELECT * 
+		FROM f.g_pin p LEFT JOIN f.geo_addr a 
+		ON p.pin0 = a.pin AND p.county = a.county;
+quit;
+%mend g_pin_addr;
 
 
 
@@ -447,11 +485,13 @@ proc contents data=f.mls_geo_match;
 
 *%get_pin_m();
 *%comb_pin_m();
-%clean_pin_m(all);
+*%clean_pin_m(all);
 
 *%get_pin_g();
-%clean_pin_g();
-%match_pin();
+*%clean_pin_g();
+*%get_addr_g();
+*%g_pin_addr();
+*%match_pin();
 
 proc sql;
 	SELECT county, COUNT(*)
